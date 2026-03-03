@@ -23,25 +23,50 @@
     </style>
   </head>
   <body>
-    <h1>My Counter</h1>
-    <p id="count">0</p>
-    <button onclick="increment()">Add 1</button>
-    <button onclick="reset()">Reset</button>
+  <h1>Todo List</h1>
 
-    <script>
-        let count = 0
+  <input id="input" type="text" placeholder="Add a todo..." />
+  <button onclick="addTodo()">Add</button>
 
-        function increment() {
-            count = count + 1
-            document.getElementById('count').innerText = count
-        }
-        
-        function reset() {
-            count = 0
-            document.getElementById('count').innerText = count
-        }
-    </script>
-  </body>
+  <ul id="todos"></ul>
+
+  <script>
+    let todos = []
+
+    function addTodo() {
+      const input = document.getElementById('input')
+      const text = input.value.trim()
+
+      if (text === '') return
+
+      todos.push(text)
+      input.value = ''
+      renderTodos()
+    }
+
+    function removeTodo(index) {
+      todos.splice(index, 1)
+      renderTodos()
+    }
+
+    function renderTodos() {
+      const list = document.getElementById('todos')
+      list.innerHTML = ''
+
+      todos.forEach(function(todo, index) {
+        const item = document.createElement('li')
+        item.innerText = todo + ' '
+
+        const deleteBtn = document.createElement('button')
+        deleteBtn.innerText = 'Delete'
+        deleteBtn.onclick = function() { removeTodo(index) }
+
+        item.appendChild(deleteBtn)
+        list.appendChild(item)
+      })
+    }
+  </script>
+</body>
 </html>
 
 
